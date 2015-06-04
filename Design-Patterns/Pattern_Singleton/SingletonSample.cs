@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Design_Patterns.Singleton
+namespace Design_Patterns.Pattern_Singleton
 {
     internal class SingletonSample
     {
@@ -13,7 +9,7 @@ namespace Design_Patterns.Singleton
         }
 
         private static volatile SingletonSample singletonObject;
-        private static object lockingObject = new object();
+        private static readonly object lockingObject = new object();
 
         public static SingletonSample InstanceCreation()
         {

@@ -41,16 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Observer Pattern\Observer.cs" />
-    <Compile Include="Observer Pattern\Subject.cs" />
+    <Compile Include="Pattern_Observer\Observer.cs" />
+    <Compile Include="Pattern_Observer\Subject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Singleton\SingletonSample.cs" />
+    <Compile Include="Pattern_Singleton\SingletonSample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Observer Pattern\_ObserverPattern.md" />
-    <None Include="Singleton\_SingletonPattern.md" />
+    <None Include="Pattern_Observer\_ObserverPattern.md" />
+    <None Include="Pattern_Singleton\_SingletonPattern.md" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

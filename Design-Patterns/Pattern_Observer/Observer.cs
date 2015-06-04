@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Design_Patterns.Observer_Pattern
+namespace Design_Patterns.Pattern_Observer
 {
     public class Observer : IObserver
     {
@@ -12,7 +8,7 @@ namespace Design_Patterns.Observer_Pattern
 
         public Observer(string name)
         {
-            this.ObserverName = name;
+            ObserverName = name;
         }
 
         public void Update()
