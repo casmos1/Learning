@@ -1,1 +1,6 @@
 C:\Users\mabank\Home\Sandbox\Learning\Design-Patterns\bin\Debug\Design-Patterns.exe.config
+C:\Users\mabank\Home\Sandbox\Learning\Design-Patterns\bin\Debug\Design-Patterns.exe
+C:\Users\mabank\Home\Sandbox\Learning\Design-Patterns\bin\Debug\Design-Patterns.pdb
+C:\Users\mabank\Home\Sandbox\Learning\Design-Patterns\obj\Debug\Design-Patterns.csprojResolveAssemblyReference.cache
+C:\Users\mabank\Home\Sandbox\Learning\Design-Patterns\obj\Debug\Design-Patterns.exe
+C:\Users\mabank\Home\Sandbox\Learning\Design-Patterns\obj\Debug\Design-Patterns.pdb
