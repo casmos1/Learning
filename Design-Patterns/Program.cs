@@ -10,6 +10,7 @@ namespace Design_Patterns
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("First Change");
         }
     }
 }
