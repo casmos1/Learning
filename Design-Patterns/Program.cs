@@ -1,6 +1,7 @@
 ﻿using System;
-using Design_Patterns.Observer_Pattern;
-using Design_Patterns.Singleton;
+using Design_Patterns.Pattern_Factory;
+using Design_Patterns.Pattern_Observer;
+using Design_Patterns.Pattern_Singleton;
 
 namespace Design_Patterns
 {
@@ -9,7 +10,8 @@ namespace Design_Patterns
         static void Main(string[] args)
         {
             //ObserverPattern();
-            SingletonPattern();
+            //SingletonPattern();
+            FactoryPattern();
         }
 
         private static void ObserverPattern()
@@ -37,6 +39,19 @@ namespace Design_Patterns
             SingletonSample singleton = SingletonSample.InstanceCreation();
             singleton.DisplayMessage();
             Console.ReadLine();
+        }
+
+        private static void FactoryPattern()
+        {
+            VehicleFactory factory = new ConcreteVehicleFactory();
+
+            IFactory scooter = factory.GetVehicle("Scooter");
+            scooter.Drive(10);
+
+            IFactory bike = factory.GetVehicle("Bike");
+            bike.Drive(20);
+
+            Console.ReadKey();
         }
     }
 }

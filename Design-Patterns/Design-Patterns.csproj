@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pattern_Factory\Bike.cs" />
+    <Compile Include="Pattern_Factory\ConcreteVehicleFactory.cs" />
+    <Compile Include="Pattern_Factory\IFactory.cs" />
+    <Compile Include="Pattern_Factory\Scooter.cs" />
+    <Compile Include="Pattern_Factory\VehicleFactory.cs" />
     <Compile Include="Pattern_Observer\Observer.cs" />
     <Compile Include="Pattern_Observer\Subject.cs" />
     <Compile Include="Program.cs" />
