@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Pattern_Factory\_FactoryPattern.md" />
     <None Include="Pattern_Observer\_ObserverPattern.md" />
     <None Include="Pattern_Singleton\_SingletonPattern.md" />
   </ItemGroup>
