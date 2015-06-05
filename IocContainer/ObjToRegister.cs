@@ -2,11 +2,9 @@
 
 namespace IocContainer
 {
-    //class to register stuff. holds the interface, the class as well as the lifestyle type
-    //this way, I can create one dictionary to hold everything instead of dictionary of dictionaries.
     class ObjToRegister
     {
-        public ObjToRegister(Type interfaceType, Type concreteClassType, int lifestyle)
+        public ObjToRegister(Type interfaceType, Type concreteClassType, LifestyleType lifestyle)
         {
             InterfaceType = interfaceType;
             ConcreteClassType = concreteClassType;
@@ -15,6 +13,12 @@ namespace IocContainer
 
         public Type InterfaceType{ get; set; }
         public Type ConcreteClassType { get; set; }
-        public int LifeStyleType { get; set; }
+        public LifestyleType LifeStyleType { get; set; }
+        public object Instance { get; private set; }
+
+        public void CreateInstance(params object[] args)
+        {
+            Instance = Activator.CreateInstance(ConcreteClassType, args);
+        }
     }
 }

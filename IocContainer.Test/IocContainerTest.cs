@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using IocContainer;
+using System;
 
 namespace IocContainer.Test
 {
@@ -33,23 +33,13 @@ namespace IocContainer.Test
         }
 
         [Test]
-        public void TestRegisterWithSingleton()
+        public void create_singleton_instance()
         {
-            Container cont = new Container();
-            cont.Register<IRepository, Repository>(LifestyleType.Singleton);
-            IRepository repo1 = cont.Resolve<IRepository>();
-            IRepository repo2 = cont.Resolve<IRepository>();
-            bool result = repo1.Equals(repo2);
-            Assert.AreEqual(true, result);
-        }
+            var cont = new Container();
+            cont.Register<ITypeToResolveTester, ConcreteTypeTester>(LifestyleType.Singleton);
+            var instance = cont.Resolve<ITypeToResolveTester>();
 
-        [Test]
-        [ExpectedException(typeof(NotRegisteredException))]
-        public void TestResolveThatWillThrowAnException()
-        {
-            Container cont = new Container();
-            cont.Register<IRepository, Repository>();
-            IRepository repo = cont.Resolve<IRepository>();
+            Assert.That(cont.Resolve<ITypeToResolveTester>(), Is.SameAs(instance));
         }
 
         [Test]
@@ -61,5 +51,58 @@ namespace IocContainer.Test
             string result = repo.ShowMessage("This is a test");
             StringAssert.AreEqualIgnoringCase("This is a test", result);
         }
+
+        [Test]
+        public void resolve_object_with_registered_constructor_parameters()
+        {
+            var cont = new Container();
+
+            cont.Register<ITypeToResolveTester, ConcreteTypeTester>();
+            cont.Register<ITypeToResolveWithConstructorParamsTester, ConcreteTypeWithConstructorParamsTester>();
+
+            var instance = cont.Resolve<ITypeToResolveWithConstructorParamsTester>();
+
+            Assert.That(instance, Is.InstanceOf(typeof(ConcreteTypeWithConstructorParamsTester)));
+        }
+
+        [Test]
+        public void throw_exception_trying_to_resolve_object_with_unregistered_constructor_parameters()
+        {
+            var cont = new Container();
+            Exception exception = null;
+            
+            cont.Register<ITypeToResolveWithConstructorParamsTester, ConcreteTypeWithConstructorParamsTester>();
+
+            try
+            {
+                var instance = cont.Resolve<ITypeToResolveWithConstructorParamsTester>();
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            Assert.That(exception, Is.InstanceOf(typeof(NotRegisteredException)));
+        }
     }
+
+    #region test objects
+    public interface ITypeToResolveTester { }
+
+    public class ConcreteTypeTester : ITypeToResolveTester
+    {
+    }
+
+    public interface ITypeToResolveWithConstructorParamsTester
+    {
+    }
+
+    public class ConcreteTypeWithConstructorParamsTester : ITypeToResolveWithConstructorParamsTester
+    {
+        public ConcreteTypeWithConstructorParamsTester(ITypeToResolveTester typeToResolveTester)
+        {
+
+        }
+    }
+    #endregion
 }

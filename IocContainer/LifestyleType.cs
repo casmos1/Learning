@@ -1,9 +1,8 @@
 ﻿namespace IocContainer
 {
-    public class LifestyleType
+    public enum LifestyleType
     {
-        //two lifestyle types to handle.
-        public static int Transient = 0;
-        public static int Singleton = 1;
+        Transient,
+        Singleton
     }
 }
