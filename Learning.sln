@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IocContainer", "IocContaine
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IocContainer.Test", "IocContainer.Test\IocContainer.Test.csproj", "{CED47BBA-DFAC-46E6-99A7-EC45389E43C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "React", "React\React.csproj", "{586116C3-413E-43C4-B1FB-81EAB57D6FE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CED47BBA-DFAC-46E6-99A7-EC45389E43C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CED47BBA-DFAC-46E6-99A7-EC45389E43C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CED47BBA-DFAC-46E6-99A7-EC45389E43C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{586116C3-413E-43C4-B1FB-81EAB57D6FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{586116C3-413E-43C4-B1FB-81EAB57D6FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{586116C3-413E-43C4-B1FB-81EAB57D6FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{586116C3-413E-43C4-B1FB-81EAB57D6FE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
