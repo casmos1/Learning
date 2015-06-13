@@ -1,0 +1,35 @@
+﻿{
+  "trains": [
+    {
+      "line": "S",
+      "to": "work",
+      "times": ["7:03AM", "7:23AM", "7:43AM", "8:03AM" ]
+    },
+    {
+      "line": "S",
+      "to": "home",
+      "times": ["3:30PM", "3:50PM", "4:10PM", "4:30PM" ]
+    },
+    {
+      "line": "Green",
+      "to": "work",
+      "times": ["7:18AM", "7:33AM", "7:48AM", "8:03AM" ]
+    },
+    {
+      "line": "Green",
+      "to": "home",
+      "times": ["3:30PM", "3:50PM", "4:10PM", "4:30PM" ]
+    },
+    {
+      "line": "Blue",
+      "to": "work",
+      "times": ["7:18AM", "7:33AM", "7:48AM", "8:03AM" ]
+    },
+    {
+      "line": "Blue",
+      "to": "home",
+      "times": ["3:30PM", "3:50PM", "4:10PM", "4:30PM" ]
+    }
+  ] 
+}
+

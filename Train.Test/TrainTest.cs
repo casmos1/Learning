@@ -25,5 +25,36 @@ namespace Train.Test
 
             Assert.AreEqual(nextTrainLine, expectedTrainLine);
         }
+
+        [Test]
+        public void conductor_should_tell_arrival_time()
+        {
+            var desiredDepartureTime = new TimeSpan(7, 0, 0);
+            var departingPlatform = Platform.Home;
+            var arrivingPlatform = Platform.GallivanPlaza;
+            var expectedArrivalTime = new TimeSpan(7, 25, 0); // This is a guess.  Get actual time.
+            var actualArrivalTime = Conductor.GetArrivalTime(desiredDepartureTime, departingPlatform, arrivingPlatform);
+
+            Assert.AreEqual(actualArrivalTime, expectedArrivalTime);
+        }
+
+        //[Test]
+        //public void conductor_should_tell_total_wait_time_between_stops()
+        //{
+            
+        //    var desiredDepartureTime = new TimeSpan(7, 0, 0);
+        //    var departingPlatform = Platform.Home;
+        //    var arrivingPlatform = Platform.GallivanPlaza;
+        //    var expectedWaitTime = 5;
+        //    var actualWaitTime = Conductor.GetWaitTime(desiredDepartureTime, departingPlatform, arrivingPlatform);
+
+        //    Assert.AreEqual(actualWaitTime, expectedWaitTime);
+        //}
+
+        [Test]
+        public void test()
+        {
+            Assert.AreEqual(Conductor.ReadInJson(), "S");
+        }
     }
 }
