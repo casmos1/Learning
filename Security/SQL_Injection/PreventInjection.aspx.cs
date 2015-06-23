@@ -40,7 +40,7 @@ public partial class SQL_Injection_PreventInjection : Page
         var connection = "Connection String Goes Here";
         var sql = @"
             SELECT 
-                FirstName, LastName, UserIDD
+                FirstName, LastName, UserID
             FROM 
                 Users
             WHERE
