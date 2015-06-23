@@ -1,0 +1,25 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Internet Security & You</title>
+    <link href="/Content/bootstrap-superhero-blue-theme.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+
+  <asp:ScriptManager runat="server"/>
+    <div class="container body-content" style="padding-top: 20px;">
+      <header style="background-color: #072C47; background-image: url('/Content/Images/Access-Denied-Yoda.jpg'); opacity: 50; background-repeat: no-repeat; height: 200px; line-height: 200px;">
+      </header>
+      <hr/>
+
+      <asp:ContentPlaceHolder id="cphBody" runat="server"/>
+        
+        
+    </div>
+    </form>
+</body>
+</html>

@@ -15,28 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IocContainer.Test", "IocCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "React", "React\React.csproj", "{586116C3-413E-43C4-B1FB-81EAB57D6FE3}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Security-Presentation", "http://localhost:61830", "{4930D45D-F01F-47B2-95A6-9214ACC9DE11}"
-	ProjectSection(WebsiteProperties) = preProject
-		UseIISExpress = "true"
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_61830"
-		Debug.AspNetCompiler.PhysicalPath = "..\Security-Presentation\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61830\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_61830"
-		Release.AspNetCompiler.PhysicalPath = "..\Security-Presentation\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61830\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		SlnRelativePath = "..\Security-Presentation\"
-		DefaultWebSiteLanguage = "Visual C#"
-	EndProjectSection
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GitPlayground", "http://localhost:61724", "{BAFF5E47-3D12-43C4-95AE-E593782CD7B6}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
@@ -56,6 +34,28 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GitPlayground", "http://loc
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		SlnRelativePath = "GitPlayground\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Security", "http://localhost:56043", "{83036DBA-D826-4672-A778-E132C31211B7}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_56043"
+		Debug.AspNetCompiler.PhysicalPath = "Security\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_56043\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_56043"
+		Release.AspNetCompiler.PhysicalPath = "Security\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_56043\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "Security\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
@@ -89,14 +89,14 @@ Global
 		{586116C3-413E-43C4-B1FB-81EAB57D6FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{586116C3-413E-43C4-B1FB-81EAB57D6FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{586116C3-413E-43C4-B1FB-81EAB57D6FE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4930D45D-F01F-47B2-95A6-9214ACC9DE11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4930D45D-F01F-47B2-95A6-9214ACC9DE11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4930D45D-F01F-47B2-95A6-9214ACC9DE11}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{4930D45D-F01F-47B2-95A6-9214ACC9DE11}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{BAFF5E47-3D12-43C4-95AE-E593782CD7B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BAFF5E47-3D12-43C4-95AE-E593782CD7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAFF5E47-3D12-43C4-95AE-E593782CD7B6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{BAFF5E47-3D12-43C4-95AE-E593782CD7B6}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{83036DBA-D826-4672-A778-E132C31211B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83036DBA-D826-4672-A778-E132C31211B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83036DBA-D826-4672-A778-E132C31211B7}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{83036DBA-D826-4672-A778-E132C31211B7}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
