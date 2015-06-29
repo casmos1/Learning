@@ -9,6 +9,19 @@ public partial class Site : MasterPage
     private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
     private string _antiXsrfTokenValue;
 
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Context.User.Identity.IsAuthenticated)
+        {
+            txtWelcome.Text = Context.User.Identity.Name;
+            txtWelcome.Visible = true;
+        }
+        else
+        {
+            btnSignOut.Visible = false;
+            txtWelcome.Visible = false;
+        }    
+    }
     protected void Page_Init(object sender, EventArgs e)
     {
         //First, check for the existence of the Anti-XSS cookie
@@ -87,5 +100,11 @@ public partial class Site : MasterPage
                 throw new InvalidOperationException("Validation of Anti-XSRF token failed.");
             }
         }
+    }
+
+    protected void btnSignOut_OnClick(object sender, EventArgs e)
+    {
+        FormsAuthentication.SignOut();
+        Response.Redirect("Logon.aspx");
     }
 }

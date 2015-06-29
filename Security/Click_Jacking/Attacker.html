@@ -1,0 +1,11 @@
+﻿<html>
+<head>
+  <title>Clickjack test page</title>
+</head>
+<body>
+  <p>You’ve been clickjacked!</p>
+<p>To fix this, add x-frame-options", "DENY" to global <br/> OR <br/> Use Framebusting JavaScript (see Site.master)</p>
+  <iframe sandbox="allow-scripts allow-forms" src="http://localhost:56043/SQL_Injection/PreventInjection.aspx" style="opacity:0.4;filter:alpha(opacity=40); " width="80%" height="80%" onmouseover="this.style.opacity=.5;this.filters.alpha.opacity=50" onmouseout="this.style.opacity=0;this.filters.alpha.opacity=0" >
+  </iframe>
+</body>
+</html>

@@ -23,7 +23,7 @@
 
     <div class="row">
       <div class="col-sm-5">
-        <asp:TextBox ID="txtSSN" runat="server" placeholder="XXX-XX-XXXX" MaxLength="11" CssClass="form-control"/>
+        <asp:TextBox ID="txtSSN" runat="server" placeholder="XXX-XX-XXXX" MaxLength="11" CssClass="form-control" onkeyup="this.value=this.value.replace(/[^\d-]/,'')"/>
       </div>
       <div class="col-sm-5">
         <asp:button ID="btnSSN" runat="server" Text="Submit SSN" OnClick="SafeSql" CssClass="btn btn-primary"/>

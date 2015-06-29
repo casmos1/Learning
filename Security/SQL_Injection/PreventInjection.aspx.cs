@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Web.UI;
+using System.Web.Security.AntiXss;
 
 public partial class SQL_Injection_PreventInjection : Page
 {
@@ -45,6 +46,10 @@ public partial class SQL_Injection_PreventInjection : Page
                 Users
             WHERE
                 SSN = @ssn";
+
+        // Even better, use SPROCs.  
+        // On the DB side, enforce "Least Privilege"
+         
 
         try
         {
