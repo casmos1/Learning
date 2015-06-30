@@ -19,11 +19,9 @@
   <br/>
   <br/>
   Salt: <asp:Label runat="server" ID="lblSalt" />
-  <br />
-  Hash: <asp:Label runat="server" ID="lblHash"/>
+
   <br/>
   Password: <asp:Label runat="server" ID="lblOutput" />
-  <br/>
-  Decrypted Password: <asp:Label runat="server" ID="lblPassword"/>
+
 </asp:Content>
 

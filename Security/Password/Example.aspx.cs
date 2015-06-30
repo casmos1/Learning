@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+
 using System.Security.Cryptography;
 
 public partial class Password_Example : System.Web.UI.Page
 {
+    const string _fixedSalt =  @"pYi1BgjONo/2RQ==";
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
-
 
 
     private string CreateSalt(int size)
@@ -25,6 +21,7 @@ public partial class Password_Example : System.Web.UI.Page
 
     public string GenerateShaw256Hash(string input, string salt)
     {
+        lblSalt.Text = salt;
         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(input + salt);
         SHA256Managed sha256Managed = new SHA256Managed();
         byte[] hash = sha256Managed.ComputeHash(bytes);
@@ -34,7 +31,8 @@ public partial class Password_Example : System.Web.UI.Page
 
     protected void OnClick(object sender, EventArgs e)
     {
-        string salt = CreateSalt(10);
+        //string salt = CreateSalt(10);
+        string salt = _fixedSalt;
         string hashPassword = GenerateShaw256Hash(txtPassword.Text, salt);
 
         lblOutput.Text = hashPassword;

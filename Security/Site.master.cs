@@ -22,6 +22,7 @@ public partial class Site : MasterPage
             txtWelcome.Visible = false;
         }    
     }
+
     protected void Page_Init(object sender, EventArgs e)
     {
         //First, check for the existence of the Anti-XSS cookie

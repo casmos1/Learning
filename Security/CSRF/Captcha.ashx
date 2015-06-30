@@ -17,8 +17,6 @@ public class Captcha : IHttpHandler, IReadOnlySessionState
         var iWidth = 190;
         var oRandom = new Random();
 
-        int[] aBackgroundNoiseColor = {150, 150, 150};
-        int[] aTextColor = {0, 0, 0};
         int[] aFontEmSizes = {15, 20, 25, 30, 35};
 
         string[] aFontNames =
@@ -59,19 +57,15 @@ public class Captcha : IHttpHandler, IReadOnlySessionState
             HatchStyle.WideDownwardDiagonal, HatchStyle.WideUpwardDiagonal, HatchStyle.ZigZag
         };
 
-//Get Captcha in Session
         var sCaptchaText = context.Session["Captcha"].ToString();
 
-//Creates an output Bitmap
         var oOutputBitmap = new Bitmap(iWidth, iHeight, PixelFormat.Format24bppRgb);
         var oGraphics = Graphics.FromImage(oOutputBitmap);
         oGraphics.TextRenderingHint = TextRenderingHint.AntiAlias;
 
-//Create a Drawing area
         var oRectangleF = new RectangleF(0, 0, iWidth, iHeight);
         var oBrush = default(Brush);
 
-//Draw background (Lighter colors RGB 100 to 255)
         oBrush = new HatchBrush(aHatchStyles[oRandom.Next
             (aHatchStyles.Length - 1)], Color.FromArgb((oRandom.Next(100, 255)),
                 (oRandom.Next(100, 255)), (oRandom.Next(100, 255))), Color.White);
