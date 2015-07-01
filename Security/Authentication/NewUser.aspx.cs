@@ -16,17 +16,18 @@ public partial class Authentication_NewUser : Page
     {
         var salt = CreateSalt(10);
         var hashPassword = GenerateShaw256Hash(txtPassword.Text, salt);
-        SaveUser(txtSSN.Text, txtEmail.Text, hashPassword, salt);
+        SaveUser(txtEmail.Text, hashPassword, salt);
+        Response.Redirect("~/Default.aspx");
     }
 
-    private static void SaveUser(string ssn, string email, string password, string salt)
+    private static void SaveUser(string email, string password, string salt)
     {
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
            INSERT INTO Users 
-                (ssn, email, password, salt) 
+                (email, password, salt) 
             VALUES
-                (@ssn, @email, @password, @salt)";
+                (@email, @password, @salt)";
 
 
         using (var con = new SqlConnection(connection))
@@ -34,7 +35,6 @@ public partial class Authentication_NewUser : Page
             using (var command = new SqlCommand(sql, con))
             {
                 con.Open();
-                command.Parameters.Add("ssn", SqlDbType.VarChar, 11).Value = ssn;
                 command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = email;
                 command.Parameters.Add("password", SqlDbType.VarChar, 50).Value = password;
                 command.Parameters.Add("salt", SqlDbType.VarChar, 50).Value = salt;

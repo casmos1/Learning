@@ -17,5 +17,9 @@
   <p>
     <asp:Label runat="server" ID="lblError" Text="Login failed; Invalid email or password" Visible="False" CssClass="alert-danger"></asp:Label>
   </p>
+  
+  <p>
+    Don't have an account? <asp:HyperLink runat="server" NavigateUrl="NewUser.aspx" Text="Sign Up Now!"/>
+  </p>
   <asp:Button runat="server" ID="btnSubmit" OnClick="btnSubmit_OnClick" CssClass="btn btn-primary" Text="Log In"/>
 </asp:Content>

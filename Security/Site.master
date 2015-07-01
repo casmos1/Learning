@@ -22,10 +22,11 @@
 
   <asp:ScriptManager runat="server"/>
     <div class="container body-content" style="padding-top: 20px;">
-      <header style="background-color: #072C47; background-image: url('/Content/Images/Access-Denied-Yoda.jpg'); opacity: 50; background-repeat: no-repeat; height: 200px; line-height: 200px;">
-        <div style="float: right; vertical-align: top; height: 50px;">
+              <span style="float: right; vertical-align: top; margin-right: 15px; ">
            <asp:LinkButton runat="server" ID="btnSignOut" OnClick="btnSignOut_OnClick" Text="Sign Out "/><asp:Label ID="txtWelcome" runat="server"/>
-          </div>
+          </span>
+      <header style="background-color: #072C47; background-image: url('/Content/Images/Access-Denied-Yoda.jpg'); background-repeat: no-repeat; height: 200px; line-height: 200px;" >
+
       </header>
       <hr/>
 

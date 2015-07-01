@@ -9,21 +9,30 @@ using System.Web.UI;
 
 public partial class Authentication_Login : Page
 {
+    private static bool _emailExists = false;
+
     protected void Page_Load(object sender, EventArgs e)
     {
     }
 
     protected void btnSubmit_OnClick(object sender, EventArgs e)
     {
-        if (ValidatePassword(txtEmail.Text, txtPassword.Text))
-        {
-            FormsAuthentication.RedirectFromLoginPage(txtEmail.Text, false);
+        var email = txtEmail.Text.ToLower().Trim();
+        var password = txtPassword.Text;
+
+        if (ValidatePassword(email, password))
+            {
+                // TODO: Make sure user can try again and is not locked out.
+                // TODO: Clear failed attempt count.
+                FormsAuthentication.RedirectFromLoginPage(password, false);
+            }
+            else
+            {
+                // TODO: Add the attempt to the failure table.  Increase the count.  If it is >= maxFail, lock the account for (X)Min. Show number of attempts.
+                lblError.Visible = true;
+            }
         }
-        else
-        {
-            lblError.Visible = true;
-        }
-    }
+
 
     private static string GetSaltForUser(string email)
     {
@@ -88,7 +97,7 @@ public partial class Authentication_Login : Page
         return isValid;
     }
 
-    public static string GenerateShaw256Hash(string input, string salt)
+    private static string GenerateShaw256Hash(string input, string salt)
     {
         var bytes = Encoding.UTF8.GetBytes(input + salt);
         var sha256Managed = new SHA256Managed();
@@ -96,4 +105,18 @@ public partial class Authentication_Login : Page
 
         return Encoding.Default.GetString(hash);
     }
+
+   
+   
+
+
+
+
+    private static void HandleFailure(string email)
+    {
+        
+    }
+
+
 }
+
