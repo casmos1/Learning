@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.Security.AntiXss;
@@ -16,7 +17,7 @@ public partial class SQL_Injection_PreventInjection : Page
         var ssn = txtSSN.Text;
 
         if (Page.IsValid)
-            SafeSqlQuery(ssn);
+            litEmail.Text = SafeSqlQuery(ssn);
     }
 
     protected void UnsafeSql(object sender, EventArgs e)
@@ -36,12 +37,12 @@ public partial class SQL_Injection_PreventInjection : Page
                 SSN = '" + ssn + "'";
     }
 
-    private static void SafeSqlQuery(string ssn)
+    private static string SafeSqlQuery(string ssn)
     {
-        var connection = "Connection String Goes Here";
+        var connection = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
             SELECT 
-                FirstName, LastName, UserID
+                email
             FROM 
                 Users
             WHERE
@@ -49,22 +50,23 @@ public partial class SQL_Injection_PreventInjection : Page
 
         // Even better, use SPROCs.  
         // On the DB side, enforce "Least Privilege"
-         
 
-        try
-        {
+        string email = string.Empty;
+
             using (var con = new SqlConnection(connection))
             {
                 using (var command = new SqlCommand(sql, con))
                 {
-                    command.Parameters.Add(new SqlParameter("@ssn", ssn));
-                    // Do something
+                    con.Open();
+                    command.Parameters.Add(new SqlParameter("ssn", ssn));
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        email = reader.GetString(0);
+                    }
                 }
             }
-        }
-        catch (ArgumentException)
-        {
-            // Log the exception
-        }
+
+        return email;
     }
 }

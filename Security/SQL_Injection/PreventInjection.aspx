@@ -29,7 +29,7 @@
         <asp:button ID="btnSSN" runat="server" Text="Submit SSN" OnClick="SafeSql" CssClass="btn btn-primary"/>
       </div>
     </div>
-
+    <asp:Literal runat="server" ID="litEmail"></asp:Literal>
 
     <br/>
 
