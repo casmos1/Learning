@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Activities.Expressions;
 using System.Data;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
@@ -9,7 +10,16 @@ using System.Web.UI;
 
 public partial class Authentication_Login : Page
 {
-    private static bool _emailExists = false;
+    private const int MaxAttempts = 3;
+    private const int LogoutDurationInSeconds = 30;
+    private string _password;
+    private string _email;
+    private int _attemptCount;
+    private const bool AccountIsLocked = true;
+    private const bool AccountIsOpen = false;
+    private const bool ResetSuccessfulLogin = true;
+    private const bool DoNotResetSuccessfulLogin = false;
+
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -17,24 +27,36 @@ public partial class Authentication_Login : Page
 
     protected void btnSubmit_OnClick(object sender, EventArgs e)
     {
-        var email = txtEmail.Text.ToLower().Trim();
-        var password = txtPassword.Text;
+        _email = txtEmail.Text.ToLower().Trim();
+        _password = txtPassword.Text;
+        _attemptCount = GetAttemptCount();
 
-        if (ValidatePassword(email, password))
+        if (!IsAccountLocked())
+        {
+            if (ValidatePassword())
             {
-                // TODO: Make sure user can try again and is not locked out.
-                // TODO: Clear failed attempt count.
-                FormsAuthentication.RedirectFromLoginPage(password, false);
+                UpdateAttempt(ResetSuccessfulLogin); // Successful, reset attempts
+                FormsAuthentication.RedirectFromLoginPage(_email, false);
             }
             else
             {
-                // TODO: Add the attempt to the failure table.  Increase the count.  If it is >= maxFail, lock the account for (X)Min. Show number of attempts.
-                lblError.Visible = true;
+                UpdateAttempt(DoNotResetSuccessfulLogin);
+                ShowFailure(AccountIsOpen);
             }
         }
+        else
+        {
+            UpdateAttempt(DoNotResetSuccessfulLogin);
+            ShowFailure(AccountIsLocked);
+            btnSubmit.Enabled = false;
+            txtEmail.Enabled = false;
+            txtPassword.Enabled = false;
+            txtEmail.Text = "";
+            txtPassword.Text = "";
+        }
+    }
 
-
-    private static string GetSaltForUser(string email)
+    private string GetSaltForUser()
     {
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
@@ -51,7 +73,7 @@ public partial class Authentication_Login : Page
             using (var command = new SqlCommand(sql, con))
             {
                 con.Open();
-                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = email;
+                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
@@ -63,11 +85,11 @@ public partial class Authentication_Login : Page
         return salt;
     }
 
-    private static bool ValidatePassword(string email, string password)
+    private bool ValidatePassword()
     {
         var isValid = false;
-        var salt = GetSaltForUser(email);
-        var hash = GenerateShaw256Hash(password, salt);
+        var salt = GetSaltForUser();
+        var hash = GenerateShaw256Hash(_password, salt);
 
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
@@ -84,7 +106,7 @@ public partial class Authentication_Login : Page
             using (var command = new SqlCommand(sql, con))
             {
                 con.Open();
-                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = email;
+                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
                 command.Parameters.Add("password", SqlDbType.VarChar, 50).Value = hash;
                 var reader = command.ExecuteReader();
                 while (reader.Read())
@@ -97,7 +119,7 @@ public partial class Authentication_Login : Page
         return isValid;
     }
 
-    private static string GenerateShaw256Hash(string input, string salt)
+    private string GenerateShaw256Hash(string input, string salt)
     {
         var bytes = Encoding.UTF8.GetBytes(input + salt);
         var sha256Managed = new SHA256Managed();
@@ -106,17 +128,186 @@ public partial class Authentication_Login : Page
         return Encoding.Default.GetString(hash);
     }
 
-   
-   
-
-
-
-
-    private static void HandleFailure(string email)
+    private bool CheckAttemptExists()
     {
-        
+        var recordExists = false;
+
+        var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
+        var sql = @"
+            SELECT 
+               Count(*) 
+            FROM 
+                UserAuthHistory
+            WHERE
+                email = @email";
+
+        using (var con = new SqlConnection(connection))
+        {
+            using (var command = new SqlCommand(sql, con))
+            {
+                con.Open();
+                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    recordExists = Convert.ToBoolean(reader.GetInt32(0));
+                }
+            }
+        }
+
+        return recordExists;
     }
 
+    private void AddFirstAttempt()
+    {
+        
+        var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
+        var sql = @"
+           INSERT INTO UserAuthHistory 
+                (email) 
+            VALUES
+                (@email)";
 
+
+        using (var con = new SqlConnection(connection))
+        {
+            using (var command = new SqlCommand(sql, con))
+            {
+                con.Open();
+                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
+
+                command.CommandType = CommandType.Text;
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+    private void UpdateAttempt(bool reset)
+    {
+        _attemptCount++;
+
+        if (!CheckAttemptExists())
+        {
+            AddFirstAttempt();
+        }
+       
+        if (reset)
+        {
+            _attemptCount = 0;
+        }
+
+        var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
+        var sql = @"
+           UPDATE UserAuthHistory 
+                SET attempts = @count,
+                lastAttempt = @currentTime
+            WHERE email = @email";
+
+        using (var con = new SqlConnection(connection))
+        {
+            
+            using (var command = new SqlCommand(sql, con))
+            {
+                con.Open();
+                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
+                command.Parameters.Add("currentTime", SqlDbType.DateTime).Value = DateTime.Now;
+                command.Parameters.Add("count", SqlDbType.TinyInt).Value = _attemptCount;
+
+                command.CommandType = CommandType.Text;
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+    private int GetAttemptCount()
+    {
+        var attempts = 0;
+
+        var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
+        var sql = @"
+            SELECT 
+               attempts
+            FROM 
+                UserAuthHistory
+            WHERE
+                email = @email";
+
+
+            using (var con = new SqlConnection(connection))
+            {
+                using (var command = new SqlCommand(sql, con))
+                {
+                    con.Open();
+                    command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
+                    var reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            attempts = Convert.ToInt32(reader[0]);
+                        }
+                    }
+                }
+            }
+        return attempts;
+    }
+
+    private DateTime GetLastAttemptDateTime()
+    {
+        var lastAttemptDate = Convert.ToDateTime("1/1/1980");
+
+        var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
+        var sql = @"
+            SELECT 
+               lastAttempt
+            FROM 
+                UserAuthHistory
+            WHERE
+                email = @email";
+
+        using (var con = new SqlConnection(connection))
+        {
+            using (var command = new SqlCommand(sql, con))
+            {
+                con.Open();
+                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
+                var reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        lastAttemptDate = Convert.ToDateTime(reader.GetDateTime(0));
+                    }
+                }
+            }
+        }
+
+        return lastAttemptDate;
+    }
+
+    private bool CanTryAgainByTime()
+    {
+        var dbTime = GetLastAttemptDateTime();
+        var timePassed = DateTime.Now.Subtract(dbTime).TotalSeconds;
+
+        return (timePassed >= LogoutDurationInSeconds);
+    }
+
+    private bool IsAccountLocked()
+    {
+        bool hasExceededMaxAttempts = (GetAttemptCount() >= MaxAttempts);
+        bool canTryAgain = CanTryAgainByTime();
+
+        return (hasExceededMaxAttempts && !canTryAgain);
+    }
+
+    private void ShowFailure(bool isLocked)
+    {
+        var message = (isLocked)
+            ? string.Format("{0} failed attempts, your account has been locked", _attemptCount.ToString())
+            : string.Format("{0} failed attempts", _attemptCount.ToString());
+
+        litAttemptCount.Text = message;
+        litAttemptCount.Visible = true;
+    }
 }
-

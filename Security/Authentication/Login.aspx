@@ -16,10 +16,15 @@
   </div>
   <p>
     <asp:Label runat="server" ID="lblError" Text="Login failed; Invalid email or password" Visible="False" CssClass="alert-danger"></asp:Label>
+    <asp:RegularExpressionValidator ID="regexEmail" runat="server" ErrorMessage="Incorrect Email Address" ControlToValidate="txtEmail" ValidationExpression="^[a-zA-Z0-9+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$" Display="Dynamic" ValidationGroup="grpSSN" CssClass="alert-danger"/>
   </p>
   
   <p>
     Don't have an account? <asp:HyperLink runat="server" NavigateUrl="NewUser.aspx" Text="Sign Up Now!"/>
   </p>
   <asp:Button runat="server" ID="btnSubmit" OnClick="btnSubmit_OnClick" CssClass="btn btn-primary" Text="Log In"/>
+  <br/>
+  <br />
+  <asp:Literal runat="server" ID="litTime" Text="Account is locked" Visible="False"/>
+  <asp:Literal runat="server" ID="litAttemptCount" Visible="False"/>
 </asp:Content>

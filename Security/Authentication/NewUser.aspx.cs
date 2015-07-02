@@ -8,6 +8,7 @@ using System.Web.UI;
 
 public partial class Authentication_NewUser : Page
 {
+    // TODO: add confirm password. 
     protected void Page_Load(object sender, EventArgs e)
     {
     }
