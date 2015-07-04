@@ -8,16 +8,14 @@ using System.Web.UI;
 
 public partial class Authentication_NewUser : Page
 {
-    // TODO: add confirm password. 
-    protected void Page_Load(object sender, EventArgs e)
-    {
-    }
-
     protected void btnSubmit_OnClick(object sender, EventArgs e)
     {
+        var password = txtPassword.Text;
+        var email = txtEmail.Text;
+
         var salt = CreateSalt(10);
-        var hashPassword = GenerateShaw256Hash(txtPassword.Text, salt);
-        SaveUser(txtEmail.Text, hashPassword, salt);
+        var hashPassword = GenerateShaw256Hash(password, salt);
+        SaveUser(email, hashPassword, salt);
         Response.Redirect("~/Default.aspx");
     }
 

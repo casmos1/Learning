@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Activities.Expressions;
 using System.Data;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
@@ -10,20 +9,16 @@ using System.Web.UI;
 
 public partial class Authentication_Login : Page
 {
-    private const int MaxAttempts = 3;
-    private const int LogoutDurationInSeconds = 30;
     private string _password;
     private string _email;
     private int _attemptCount;
+
+    private const int MaxAttempts = 3;
+    private const int LogoutDurationInSeconds = 30;
     private const bool AccountIsLocked = true;
     private const bool AccountIsOpen = false;
-    private const bool ResetSuccessfulLogin = true;
-    private const bool DoNotResetSuccessfulLogin = false;
-
-
-    protected void Page_Load(object sender, EventArgs e)
-    {
-    }
+    private const bool ResetAuthCount = true;
+    private const bool DoNotResetAuthCount = false;
 
     protected void btnSubmit_OnClick(object sender, EventArgs e)
     {
@@ -31,22 +26,22 @@ public partial class Authentication_Login : Page
         _password = txtPassword.Text;
         _attemptCount = GetAttemptCount();
 
-        if (!IsAccountLocked())
+        if (!IsAccountLocked()) // Account is not locked.
         {
-            if (ValidatePassword())
+            if (ValidatePassword()) // Creds are valid
             {
-                UpdateAttempt(ResetSuccessfulLogin); // Successful, reset attempts
+                UpdateAttempt(ResetAuthCount); // Successful, reset attempts
                 FormsAuthentication.RedirectFromLoginPage(_email, false);
             }
-            else
+            else // Failed attempt
             {
-                UpdateAttempt(DoNotResetSuccessfulLogin);
+                UpdateAttempt(DoNotResetAuthCount);
                 ShowFailure(AccountIsOpen);
             }
         }
-        else
+        else // Account is locked.
         {
-            UpdateAttempt(DoNotResetSuccessfulLogin);
+            UpdateAttempt(DoNotResetAuthCount);
             ShowFailure(AccountIsLocked);
             btnSubmit.Enabled = false;
             txtEmail.Enabled = false;
@@ -127,6 +122,8 @@ public partial class Authentication_Login : Page
 
         return Encoding.Default.GetString(hash);
     }
+
+    #region --- Ignore for presentation ---
 
     private bool CheckAttemptExists()
     {
@@ -309,5 +306,8 @@ public partial class Authentication_Login : Page
 
         litAttemptCount.Text = message;
         litAttemptCount.Visible = true;
+        litGenericError.Visible = true;
     }
+
+    #endregion
 }

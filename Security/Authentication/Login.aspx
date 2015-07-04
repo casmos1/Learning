@@ -25,6 +25,7 @@
   <asp:Button runat="server" ID="btnSubmit" OnClick="btnSubmit_OnClick" CssClass="btn btn-primary" Text="Log In"/>
   <br/>
   <br />
+  <asp:Literal runat="server" ID="litGenericError" Text="The credentials you entered are invalid." Visible="False"/>
   <asp:Literal runat="server" ID="litTime" Text="Account is locked" Visible="False"/>
   <asp:Literal runat="server" ID="litAttemptCount" Visible="False"/>
 </asp:Content>
