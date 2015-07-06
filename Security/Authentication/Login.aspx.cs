@@ -15,8 +15,8 @@ public partial class Authentication_Login : Page
 
     private const int MaxAttempts = 3;
     private const int LogoutDurationInSeconds = 30;
+    private const int ForcePasswordChangeInDays = 90;
     private const bool AccountIsLocked = true;
-    private const bool AccountIsOpen = false;
     private const bool ResetAuthCount = true;
     private const bool DoNotResetAuthCount = false;
 
@@ -31,23 +31,26 @@ public partial class Authentication_Login : Page
             if (ValidatePassword()) // Creds are valid
             {
                 UpdateAttempt(ResetAuthCount); // Successful, reset attempts
-                FormsAuthentication.RedirectFromLoginPage(_email, false);
+
+                if (TimeToChangePassword())
+                {
+                    litReset.Visible = true;
+                }
+                else
+                {
+                    FormsAuthentication.RedirectFromLoginPage(_email, false);
+                }
             }
             else // Failed attempt
             {
                 UpdateAttempt(DoNotResetAuthCount);
-                ShowFailure(AccountIsOpen);
+                ShowFailure(IsAccountLocked());
             }
         }
         else // Account is locked.
         {
             UpdateAttempt(DoNotResetAuthCount);
             ShowFailure(AccountIsLocked);
-            btnSubmit.Enabled = false;
-            txtEmail.Enabled = false;
-            txtPassword.Enabled = false;
-            txtEmail.Text = "";
-            txtPassword.Text = "";
         }
     }
 
@@ -157,7 +160,7 @@ public partial class Authentication_Login : Page
 
     private void AddFirstAttempt()
     {
-        
+
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
            INSERT INTO UserAuthHistory 
@@ -184,14 +187,10 @@ public partial class Authentication_Login : Page
         _attemptCount++;
 
         if (!CheckAttemptExists())
-        {
             AddFirstAttempt();
-        }
-       
+
         if (reset)
-        {
             _attemptCount = 0;
-        }
 
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
@@ -202,7 +201,6 @@ public partial class Authentication_Login : Page
 
         using (var con = new SqlConnection(connection))
         {
-            
             using (var command = new SqlCommand(sql, con))
             {
                 con.Open();
@@ -229,23 +227,22 @@ public partial class Authentication_Login : Page
             WHERE
                 email = @email";
 
-
-            using (var con = new SqlConnection(connection))
+        using (var con = new SqlConnection(connection))
+        {
+            using (var command = new SqlCommand(sql, con))
             {
-                using (var command = new SqlCommand(sql, con))
+                con.Open();
+                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
+                var reader = command.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    con.Open();
-                    command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
-                    var reader = command.ExecuteReader();
-                    if (reader.HasRows)
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            attempts = Convert.ToInt32(reader[0]);
-                        }
+                        attempts = Convert.ToInt32(reader[0]);
                     }
                 }
             }
+        }
         return attempts;
     }
 
@@ -301,12 +298,60 @@ public partial class Authentication_Login : Page
     private void ShowFailure(bool isLocked)
     {
         var message = (isLocked)
-            ? string.Format("{0} failed attempts, your account has been locked", _attemptCount.ToString())
-            : string.Format("{0} failed attempts", _attemptCount.ToString());
+            ? string.Format("{0} failed attempts, your account has been locked", _attemptCount)
+            : string.Format("{0} failed attempts", _attemptCount);
 
         litAttemptCount.Text = message;
         litAttemptCount.Visible = true;
         litGenericError.Visible = true;
+
+        if (isLocked)
+        {
+            btnSubmit.Enabled = false;
+            txtEmail.Enabled = false;
+            txtPassword.Enabled = false;
+            txtEmail.Text = "";
+            txtPassword.Text = "";
+        }
+    }
+
+    private DateTime GetLastChangedDate()
+    {
+        var lastChangedDate = Convert.ToDateTime("1/1/1980");
+        var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
+        var sql = @"
+            SELECT 
+              changed 
+            FROM 
+                Users
+            WHERE
+                email = @email";
+
+        using (var con = new SqlConnection(connection))
+        {
+            using (var command = new SqlCommand(sql, con))
+            {
+                con.Open();
+                command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
+                var reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        lastChangedDate = Convert.ToDateTime(reader.GetDateTime(0));
+                    }
+                }
+            }
+        }
+        return lastChangedDate;
+    }
+
+    private bool TimeToChangePassword()
+    {
+        var dbTime = GetLastChangedDate();
+        var timePassed = DateTime.Now.Subtract(dbTime).TotalDays;
+
+        return (timePassed >= ForcePasswordChangeInDays);
     }
 
     #endregion

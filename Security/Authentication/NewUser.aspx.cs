@@ -24,9 +24,9 @@ public partial class Authentication_NewUser : Page
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
            INSERT INTO Users 
-                (email, password, salt) 
+                (email, password, salt, changed) 
             VALUES
-                (@email, @password, @salt)";
+                (@email, @password, @salt, @changed)";
 
 
         using (var con = new SqlConnection(connection))
@@ -37,6 +37,7 @@ public partial class Authentication_NewUser : Page
                 command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = email;
                 command.Parameters.Add("password", SqlDbType.VarChar, 50).Value = password;
                 command.Parameters.Add("salt", SqlDbType.VarChar, 50).Value = salt;
+                command.Parameters.Add("changed", SqlDbType.DateTime).Value = DateTime.Now;
 
                 command.CommandType = CommandType.Text;
                 command.ExecuteNonQuery();

@@ -16,7 +16,14 @@
   </div>
   <p>
     <asp:Label runat="server" ID="lblError" Text="Login failed; Invalid email or password" Visible="False" CssClass="alert-danger"></asp:Label>
-    <asp:RegularExpressionValidator ID="regexEmail" runat="server" ErrorMessage="Incorrect Email Address" ControlToValidate="txtEmail" ValidationExpression="^[a-zA-Z0-9+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$" Display="Dynamic" ValidationGroup="grpSSN" CssClass="alert-danger"/>
+    <asp:RegularExpressionValidator 
+      ID="regexEmail" 
+      runat="server" 
+      ErrorMessage="Incorrect Email Address" 
+      ControlToValidate="txtEmail" 
+      ValidationExpression="^[a-zA-Z0-9+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$" 
+      Display="Dynamic" 
+      CssClass="alert-danger"/>
   </p>
   
   <p>
@@ -28,4 +35,5 @@
   <asp:Literal runat="server" ID="litGenericError" Text="The credentials you entered are invalid." Visible="False"/>
   <asp:Literal runat="server" ID="litTime" Text="Account is locked" Visible="False"/>
   <asp:Literal runat="server" ID="litAttemptCount" Visible="False"/>
+  <asp:Literal runat="server" ID="litReset" Text="Time to reset your password" Visible="False"/>
 </asp:Content>
