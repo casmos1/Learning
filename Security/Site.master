@@ -1,39 +1,35 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="Site" %>
 
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head runat="server">
-    <title>Internet Security & You</title>
-    <link href="/Content/bootstrap-superhero-blue-theme.css" rel="stylesheet" />
-  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internet Security & You</title>
+  <link href="/Content/bootstrap-superhero-blue-theme.css" rel="stylesheet"/>
+
   <!-- Framebuster JavaScript -->
-  <!-- Won't work for this test becuase it checks the host name, which is the same. However it would work for an attack outside the same host. -->
-  <script>
+  <%--  <script>
     try {
       if (top.location.hostname != self.location.hostname) throw 1;
     } catch (e) {
       top.location.href = self.location.href;
     }
-  </script>
+  </script>--%>
 </head>
 <body>
-    <form id="form1" runat="server">
-
+<form id="form1" runat="server">
   <asp:ScriptManager runat="server"/>
-    <div class="container body-content" style="padding-top: 20px;">
-              <span style="float: right; vertical-align: top; margin-right: 15px; ">
+  <div class="container body-content" style="padding-top: 20px;">
+    <span style="float: right; margin-right: 15px; vertical-align: top;">
            <asp:LinkButton runat="server" ID="btnSignOut" OnClick="btnSignOut_OnClick" Text="Sign Out "/><asp:Label ID="txtWelcome" runat="server"/>
           </span>
-      <header style="background-color: #072C47; background-image: url('/Content/Images/Access-Denied-Yoda.jpg'); background-repeat: no-repeat; height: 200px; line-height: 200px;" >
-
-      </header>
-      <hr/>
-
-      <asp:ContentPlaceHolder id="cphBody" runat="server"/>
-        
-        
-    </div>
-    </form>
+    <header style="background-color: #072C47; background-image: url('/Content/Images/Access-Denied-Yoda.jpg'); background-repeat: no-repeat; height: 200px; line-height: 200px;">
+    </header>
+    <hr/>
+    <asp:ContentPlaceHolder id="cphBody" runat="server"/>
+  </div>
+</form>
 </body>
 </html>

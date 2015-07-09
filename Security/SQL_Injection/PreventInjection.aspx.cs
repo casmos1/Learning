@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI;
-using System.Web.Security.AntiXss;
 
 public partial class SQL_Injection_PreventInjection : Page
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
-    }
-
     protected void SafeSql(object sender, EventArgs e)
     {
         Page.Validate();
@@ -40,7 +34,7 @@ public partial class SQL_Injection_PreventInjection : Page
     private static string SafeSqlQuery(string ssn)
     {
         var connection = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
-        var sql = @"
+        const string sql = @"
             SELECT 
                 email
             FROM 
@@ -51,7 +45,7 @@ public partial class SQL_Injection_PreventInjection : Page
         // Even better, use SPROCs.  
         // On the DB side, enforce "Least Privilege"
 
-        string email = string.Empty;
+        var email = string.Empty;
 
             using (var con = new SqlConnection(connection))
             {
@@ -59,7 +53,7 @@ public partial class SQL_Injection_PreventInjection : Page
                 {
                     con.Open();
                     command.Parameters.Add(new SqlParameter("ssn", ssn));
-                    SqlDataReader reader = command.ExecuteReader();
+                    var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         email = reader.GetString(0);

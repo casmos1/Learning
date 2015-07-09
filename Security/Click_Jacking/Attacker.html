@@ -1,11 +1,52 @@
 ﻿<html>
 <head>
-  <title>Clickjack test page</title>
+  <title>Trusted web page</title>
+
+  <style type="text/css">
+    <!--
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #ffffff;
+    }
+
+    .button {
+      padding: 5px;
+      background: #6699CC;
+      left: 275px;
+      width: 120px;
+      border: 1px solid #336699;
+    }
+
+    #content {
+      width: 500px;
+      height: 500px;
+      margin-top: 150px;
+      margin-left: 250px;
+    }
+
+    #clickjacking {
+      position: absolute;
+      left: 172px;
+      top: 60px;
+      filter: alpha(opacity=0);
+      opacity: 0.0;
+    }
+
+    // -->
+  </style>
+
 </head>
 <body>
-  <p>You’ve been clickjacked!</p>
-<p>To fix this, add x-frame-options", "DENY" to global <br/> OR <br/> Use Framebusting JavaScript (see Site.master)</p>
-  <iframe sandbox="allow-scripts allow-forms" src="http://localhost:56043/SQL_Injection/PreventInjection.aspx" style="opacity:0.4;filter:alpha(opacity=40); " width="80%" height="80%" onmouseover="this.style.opacity=.5;this.filters.alpha.opacity=50" onmouseout="this.style.opacity=0;this.filters.alpha.opacity=0" >
-  </iframe>
+  <div id="content">
+    <h1>You can trust me... <br/>I Promise!  Click Me</h1>
+    
+   
+  </div>
+
+  <iframe id="clickjacking" src="http://localhost:56043/Click_Jacking/Dangerous.aspx" width="500" height="500" scrolling="no" frameborder="none" onmouseover="this.style.opacity=.5;this.filters.alpha.opacity=50" onmouseout="this.style.opacity=0;this.filters.alpha.opacity=0"></iframe>
 </body>
 </html>

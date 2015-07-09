@@ -15,25 +15,22 @@
     </div>
   </div>
   <p>
-    <asp:Label runat="server" ID="lblError" Text="Login failed; Invalid email or password" Visible="False" CssClass="alert-danger"></asp:Label>
-    <asp:RegularExpressionValidator 
-      ID="regexEmail" 
-      runat="server" 
-      ErrorMessage="Incorrect Email Address" 
-      ControlToValidate="txtEmail" 
-      ValidationExpression="^[a-zA-Z0-9+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$" 
-      Display="Dynamic" 
-      CssClass="alert-danger"/>
-  </p>
-  
-  <p>
     Don't have an account? <asp:HyperLink runat="server" NavigateUrl="NewUser.aspx" Text="Sign Up Now!"/>
   </p>
   <asp:Button runat="server" ID="btnSubmit" OnClick="btnSubmit_OnClick" CssClass="btn btn-primary" Text="Log In"/>
   <br/>
-  <br />
+  <br/>
+  <asp:RegularExpressionValidator
+    ID="regexEmail"
+    runat="server"
+    ErrorMessage="Incorrect Email Address"
+    ControlToValidate="txtEmail"
+    ValidationExpression="^[a-zA-Z0-9+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$"
+    Display="Dynamic"
+    CssClass="alert-danger"/>
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" ErrorMessage="Email is required" CssClass="alert-danger" Display="Dynamic"/>
+  <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPassword" ErrorMessage="Password is required" CssClass="alert-danger" Display="Dynamic"/>
   <asp:Literal runat="server" ID="litGenericError" Text="The credentials you entered are invalid." Visible="False"/>
-  <asp:Literal runat="server" ID="litTime" Text="Account is locked" Visible="False"/>
   <asp:Literal runat="server" ID="litAttemptCount" Visible="False"/>
   <asp:Literal runat="server" ID="litReset" Text="Time to reset your password" Visible="False"/>
 </asp:Content>

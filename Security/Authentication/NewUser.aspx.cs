@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.Configuration;
 using System.Web.UI;
 
@@ -12,22 +10,22 @@ public partial class Authentication_NewUser : Page
     {
         var password = txtPassword.Text;
         var email = txtEmail.Text;
+        var ssn = txtSSN.Text;
 
-        var salt = CreateSalt(10);
-        var hashPassword = GenerateShaw256Hash(password, salt);
-        SaveUser(email, hashPassword, salt);
+        var salt = Yoda.Security.CreateSalt();
+        var hashPassword = Yoda.Security.GenerateShawHash(password, salt);
+        SaveUser(email, ssn, hashPassword, salt);
         Response.Redirect("~/Default.aspx");
     }
 
-    private static void SaveUser(string email, string password, string salt)
+    private static void SaveUser(string email, string ssn, string password, string salt)
     {
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
-        var sql = @"
+        const string sql = @"
            INSERT INTO Users 
-                (email, password, salt, changed) 
+                (email, ssn, password, salt, changed) 
             VALUES
-                (@email, @password, @salt, @changed)";
-
+                (@email, @ssn, @password, @salt, @changed)";
 
         using (var con = new SqlConnection(connection))
         {
@@ -35,7 +33,8 @@ public partial class Authentication_NewUser : Page
             {
                 con.Open();
                 command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = email;
-                command.Parameters.Add("password", SqlDbType.VarChar, 50).Value = password;
+                command.Parameters.Add("ssn", SqlDbType.VarChar, 11).Value = ssn;
+                command.Parameters.Add("password", SqlDbType.VarChar, 100).Value = password;
                 command.Parameters.Add("salt", SqlDbType.VarChar, 50).Value = salt;
                 command.Parameters.Add("changed", SqlDbType.DateTime).Value = DateTime.Now;
 
@@ -43,22 +42,5 @@ public partial class Authentication_NewUser : Page
                 command.ExecuteNonQuery();
             }
         }
-    }
-
-    private string CreateSalt(int size)
-    {
-        var rng = new RNGCryptoServiceProvider();
-        var buff = new byte[size];
-        rng.GetBytes(buff);
-        return Convert.ToBase64String(buff);
-    }
-
-    public string GenerateShaw256Hash(string input, string salt)
-    {
-        var bytes = Encoding.UTF8.GetBytes(input + salt);
-        var sha256Managed = new SHA256Managed();
-        var hash = sha256Managed.ComputeHash(bytes);
-
-        return Encoding.Default.GetString(hash);
     }
 }

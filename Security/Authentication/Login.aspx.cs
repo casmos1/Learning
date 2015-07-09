@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.Configuration;
 using System.Web.Security;
 using System.Web.UI;
@@ -19,6 +17,7 @@ public partial class Authentication_Login : Page
     private const bool AccountIsLocked = true;
     private const bool ResetAuthCount = true;
     private const bool DoNotResetAuthCount = false;
+    private const bool CreatePersistentCookie = false;
 
     protected void btnSubmit_OnClick(object sender, EventArgs e)
     {
@@ -33,13 +32,9 @@ public partial class Authentication_Login : Page
                 UpdateAttempt(ResetAuthCount); // Successful, reset attempts
 
                 if (TimeToChangePassword())
-                {
                     litReset.Visible = true;
-                }
                 else
-                {
-                    FormsAuthentication.RedirectFromLoginPage(_email, false);
-                }
+                    FormsAuthentication.RedirectFromLoginPage(_email, CreatePersistentCookie);
             }
             else // Failed attempt
             {
@@ -87,8 +82,7 @@ public partial class Authentication_Login : Page
     {
         var isValid = false;
         var salt = GetSaltForUser();
-        var hash = GenerateShaw256Hash(_password, salt);
-
+        var hash = Yoda.Security.GenerateShawHash(_password, salt);
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
             SELECT 
@@ -115,15 +109,6 @@ public partial class Authentication_Login : Page
         }
 
         return isValid;
-    }
-
-    private string GenerateShaw256Hash(string input, string salt)
-    {
-        var bytes = Encoding.UTF8.GetBytes(input + salt);
-        var sha256Managed = new SHA256Managed();
-        var hash = sha256Managed.ComputeHash(bytes);
-
-        return Encoding.Default.GetString(hash);
     }
 
     #region --- Ignore for presentation ---
@@ -160,14 +145,12 @@ public partial class Authentication_Login : Page
 
     private void AddFirstAttempt()
     {
-
         var connection = WebConfigurationManager.ConnectionStrings["Primary"].ConnectionString;
         var sql = @"
            INSERT INTO UserAuthHistory 
                 (email) 
             VALUES
                 (@email)";
-
 
         using (var con = new SqlConnection(connection))
         {
@@ -289,8 +272,8 @@ public partial class Authentication_Login : Page
 
     private bool IsAccountLocked()
     {
-        bool hasExceededMaxAttempts = (GetAttemptCount() >= MaxAttempts);
-        bool canTryAgain = CanTryAgainByTime();
+        var hasExceededMaxAttempts = (GetAttemptCount() >= MaxAttempts);
+        var canTryAgain = CanTryAgainByTime();
 
         return (hasExceededMaxAttempts && !canTryAgain);
     }

@@ -6,9 +6,7 @@ public partial class CSRF_PreventCsrf : Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
-        {
             SetCaptchaText();
-        }
     }
 
     private void SetCaptchaText()

@@ -14,33 +14,6 @@ http://testfire.net/search.aspx?txtSearch=<h1>Can you see this?</h1>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 take it to the next level...
 
 http://testfire.net/search.aspx?txtSearch=
@@ -57,38 +30,6 @@ http://testfire.net/search.aspx?txtSearch=<script>document.body.innerHTML="<styl
 
 
 ==============================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -119,6 +60,8 @@ http://testfire.net/search.aspx?txtSearch=<script>document.body.innerHTML="<styl
 
 
 
+=========================================================
+<script>alert(document.cookie)</script>
 
 
 
