@@ -10,13 +10,13 @@
   <link href="/Content/bootstrap-superhero-blue-theme.css" rel="stylesheet"/>
 
   <!-- Framebuster JavaScript -->
-  <%--  <script>
+    <script>
     try {
       if (top.location.hostname != self.location.hostname) throw 1;
     } catch (e) {
       top.location.href = self.location.href;
     }
-  </script>--%>
+  </script>
 </head>
 <body>
 <form id="form1" runat="server">
