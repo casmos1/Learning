@@ -99,7 +99,7 @@ public partial class Authentication_Login : Page
             {
                 con.Open();
                 command.Parameters.Add("email", SqlDbType.VarChar, 50).Value = _email;
-                command.Parameters.Add("password", SqlDbType.VarChar, 50).Value = hash;
+                command.Parameters.Add("password", SqlDbType.VarChar, 100).Value = hash;
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
