@@ -59,6 +59,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Security", "http://localhos
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSiteConsole", "TestSiteConsole\TestSiteConsole.csproj", "{5C9D3506-5D69-4220-AB95-5241E9CB8734}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{83036DBA-D826-4672-A778-E132C31211B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83036DBA-D826-4672-A778-E132C31211B7}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{83036DBA-D826-4672-A778-E132C31211B7}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{5C9D3506-5D69-4220-AB95-5241E9CB8734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C9D3506-5D69-4220-AB95-5241E9CB8734}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C9D3506-5D69-4220-AB95-5241E9CB8734}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9D3506-5D69-4220-AB95-5241E9CB8734}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
